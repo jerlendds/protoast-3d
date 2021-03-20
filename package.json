@@ -1,0 +1,25 @@
+{
+  "name": "protoast-3d",
+  "version": "1.0.0",
+  "main": "src/main.js",
+  "scripts": {
+    "serve": "webpack serve --config webpack.config.js"
+  },
+  "keywords": [],
+  "author": "Jordan <jerlends_0x0@protonmail.com> (https://jerlends.com)",
+  "license": "MIT",
+  "description": "",
+  "devDependencies": {
+    "html-webpack-plugin": "^5.3.1",
+    "lodash": "^4.17.21",
+    "postcss": "^8.2.8",
+    "postcss-loader": "^5.2.0",
+    "webpack": "^5.27.0",
+    "webpack-cli": "^4.5.0",
+    "webpack-dev-server": "^3.11.2",
+    "webpack-merge": "^5.7.3"
+  },
+  "dependencies": {
+    "three": "^0.126.1"
+  }
+}
