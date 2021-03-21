@@ -3,6 +3,8 @@
   License: MIT
   Copyright (c) 2021, Jordan jerlends_0x0@protonmail.com
 */
+// CURRENTLY PROTOTYPING out ideas in this file, organization will come later
+
 import * as THREE from 'three';
 import './hmr.js'
 
@@ -13,9 +15,9 @@ import './hmr.js'
 */
 var testingElm = document.getElementById('3dast');
 
-let elementHeight;
-let elementWidth;
-let elementAspect;
+var elementHeight;
+var elementWidth;
+var elementAspect;
 
 function setSize(elm) {
     if (elm) {
@@ -47,7 +49,7 @@ setSize(testingElm)
 var camera;
 const perspectiveDefaults = {
     fov: 45,
-    aspect: 1,
+    aspect: elementAspect,
     near: 1,
     far: 800
 }
@@ -59,13 +61,8 @@ const orthographicDefaults = {
     near: 1,
     far: 1000,
 }
-/**
-  * @desc No arguments creates default perspective camera. Sets
-  * the viewing frustum to sane values with optional overrides.
-  * @parameters camType: "perspective" || "orthographic"
-*/
+
 function createCamera(...camSettings) {
-    var fca; // fca == Final Cam Args
     var cSettings = camSettings;
 
     if (cSettings.length <= 1) {
@@ -89,45 +86,79 @@ function createCamera(...camSettings) {
             return camera
         }
     } else { // Update default values to what's set, values not set revert to defaults
-
-        if (cSettings[0] === "orthographic") {
-
-            cSettings.shift()
-            fca = Object.keys(orthographicDefaults).map(key => orthographicDefaults[key])
-
-            for (var i = 0; i < cSettings.length; i++) {
-
-                fca[i] = cSettings[i]
-            }
-
-            camera = new THREE.OrthographicCamera(fca[0], fca[1], fca[2], fca[3], fca[4], fca[5])
-            return camera
-        } else {
-
-            cSettings.shift()
-            fca = Object.keys(perspectiveDefaults).map(key => perspectiveDefaults[key])
-
-            for (var i = 0; i < cSettings.length; i++) {
-
-                fca[i] = cSettings[i]
-            }
-
-            camera = new THREE.PerspectiveCamera(fca[0], fca[1], fca[2], fca[3])
-            return camera
-        }
+        _createCustomCamera(cSettings)
     }
+}
+
+/**
+  * @desc Sequentially passes in values and creates a new camera.
+  * if all values are not passed in then those values revert to
+  * the default for the selected camera type
+  * @parameters camSettings: ["orthographic", left, right, top, bottom, near, far] || [fov, aspect near, far]
+*/
+function _createCustomCamera(camSettings) {
+
+    var cSettings = camSettings
+    var fca; // fca == Final Cam Args
+
+    if (cSettings[0] === "orthographic") {
+
+        cSettings.shift()
+        fca = Object.keys(orthographicDefaults).map(key => orthographicDefaults[key])
+
+        for (var i = 0; i < cSettings.length; i++) {
+
+            fca[i] = cSettings[i]
+        }
+
+        camera = new THREE.OrthographicCamera(fca[0], fca[1], fca[2], fca[3], fca[4], fca[5])
+        return camera
+    } else {
+
+        if (cSettings[0] === String) {
+            cSettings.shift()
+        }
+
+        fca = Object.keys(perspectiveDefaults).map(key => perspectiveDefaults[key])
+
+        for (var i = 0; i < cSettings.length; i++) {
+
+            fca[i] = cSettings[i]
+        }
+
+        camera = new THREE.PerspectiveCamera(fca[0], fca[1], fca[2], fca[3])
+        return camera
+    }
+}
+
+function zoomCenter(z) {
+    var coord = z
+    if (coord.length === 3) {
+        camera.positon.set(0, 0, z)
+    } else {
+        camera.position.set(0, 0, 100);
+    }
+    camera.lookAt(0, 0, 0);
 }
 
 
 createCamera("perspective")
 
-// TODO...
-function constructSceneLayout() {
 
+var scene;
+
+function constructSceneLayout() {
+    //TODO implement, this is temporary because I want to test more interesting things
+    scene = new THREE.Scene();
 }
 
-function constructRenderer() {
 
+var renderer;
+
+function constructRenderer() {
+    //TODO implement, this is temporary because I want to test more interesting things
+    renderer = new THREE.WebGLRenderer({ alpha: true });
+    renderer.setSize(elementWidth, elementHeight);
 }
 
 
