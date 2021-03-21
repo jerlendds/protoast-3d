@@ -112,7 +112,7 @@ function createCamera(...camSettings) {
                 fca[i] = cSettings[i]
             }
 
-            camera = new THREE.PerspectiveCamera(fca[0], fca[1], fca[2], fca[3], fca[4], fca[5])
+            camera = new THREE.PerspectiveCamera(fca[0], fca[1], fca[2], fca[3])
             return camera
         }
     }

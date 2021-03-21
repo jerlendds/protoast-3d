@@ -6,8 +6,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 
-if (module.hot &&
-    process.env.NODE_ENV !== 'production') {
+if (module.hot) {
 
     module.hot.accept('./core/instance/cameras.js', function () {
 
